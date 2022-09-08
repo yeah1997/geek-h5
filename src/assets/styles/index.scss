@@ -50,6 +50,9 @@ input {
   border: 0;
   resize: none;
   color: #333;
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 textarea {
@@ -80,4 +83,12 @@ textarea {
 .am-navbar-left {
   font-size: 20px;
   color: #999;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
