@@ -1,5 +1,13 @@
+import { Button } from 'antd-mobile'
+
+import '@/app.scss'
+
 function App() {
-  return <div>123</div>
+  return (
+    <div className="app">
+      <Button color="primary">Mini</Button>
+    </div>
+  )
 }
 
 export default App

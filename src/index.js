@@ -4,11 +4,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 
 // style
-import './assets/styles/index.scss'
+// import 'antd-mobile-v2/dist/antd-mobile.css'
+import '@scss/index.scss'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+ReactDOM.render(<App />, document.getElementById('root'))
