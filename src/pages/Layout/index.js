@@ -1,12 +1,6 @@
 import React, { Suspense } from 'react'
-import { useHistory, useLocation } from 'react-router'
 // Router
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 
 // Style
 import style from './index.module.scss'
@@ -40,7 +34,7 @@ export default function Layout() {
       {/* 区域一：点击按钮切换显示内容的区域 */}
       <div className="tab-content"></div>
 
-      {/* Router Setting */}
+      {/* Router Setting  --- Router lazy loading(Suspense)*/}
       <Suspense fallback={<div>loading</div>}>
         <Switch>
           <Route exact path="/home" component={Home}></Route>
