@@ -1,4 +1,5 @@
 // axios
+import { Toast } from 'antd-mobile'
 import axios from 'axios'
 
 export const BASE_URL = 'http://geek.itheima.net/v1_0'
@@ -24,6 +25,11 @@ instance.interceptors.response.use(
     return response.data
   },
   (error) => {
+    if (error.response) {
+      Toast.info(error.response.data.message)
+    } else {
+      Toast.info('Please try again')
+    }
     return Promise.reject(error)
   }
 )

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Toast } from 'antd-mobile'
 
 // Usuall Component
 import NavBar from '@/components/NavBar.js'
@@ -8,15 +7,23 @@ import Input from '@/components/Input'
 // Style
 import style from './index.module.scss'
 // Package
-import { useFormik } from 'formik'
+
+import { useHistory } from 'react-router'
+
+// package
+import { Toast } from 'antd-mobile'
 import * as Yup from 'yup'
 import classNames from 'classnames'
+import { useFormik } from 'formik'
 
 // Store-aciton
-import { sendCode } from '@/store/actions/login'
+import { sendCode, login } from '@/store/actions/login'
 
 export default function Login() {
+  // dispatch - Store
   const dispatch = useDispatch()
+  // history - Router
+  const history = useHistory()
 
   const [countDown, setCountDown] = useState(0)
 
@@ -49,8 +56,9 @@ export default function Login() {
         .required('Code is requied!')
         .matches(/^\d{6}$/, 'Code format is wrong'),
     }),
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values) => {
+      await dispatch(login(values))
+      history.push('/home')
     },
     validate,
   })
@@ -78,26 +86,17 @@ export default function Login() {
       return
     }
 
-    try {
-      await dispatch(sendCode(mobile))
-      Toast.success('Send success!', 1)
+    await dispatch(sendCode(mobile))
+    Toast.success('Send success!', 2)
 
-      // Start countdown(60s)
-      setCountDown(5)
-      let timeId = setInterval(() => {
-        setCountDown((countDown) => {
-          if (countDown === 1) clearInterval(timeId)
-          return countDown - 1
-        })
-      }, 1000)
-    } catch (err) {
-      if (err.response) {
-        console.log(err.response.data.message)
-        Toast.fail('Send failed !', 1)
-      } else {
-        Toast.fail('Response failed !', 1)
-      }
-    }
+    // Start countdown(60s)
+    setCountDown(5)
+    let timeId = setInterval(() => {
+      setCountDown((countDown) => {
+        if (countDown === 1) clearInterval(timeId)
+        return countDown - 1
+      })
+    }, 1000)
   }
 
   return (

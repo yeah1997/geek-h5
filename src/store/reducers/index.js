@@ -1,10 +1,8 @@
 // Combine Reducers
 import { combineReducers } from 'redux'
 
-function test(state = 0, action) {
-  return state
-}
+import login from './login'
 
 export default combineReducers({
-  test,
+  login,
 })
