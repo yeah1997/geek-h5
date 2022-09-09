@@ -11,7 +11,7 @@ import {
 // Components
 const Login = React.lazy(() => import('@/pages/Login'))
 
-const Home = React.lazy(() => import('@/pages/Home'))
+const Layout = React.lazy(() => import('@/pages/Layout'))
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
           <Switch>
             <Redirect exact from="/" to="/home"></Redirect>
             <Route path="/login" component={Login}></Route>
-            <Route path="/home" component={Home}></Route>
+            <Route path="/home" component={Layout}></Route>
           </Switch>
         </Suspense>
       </div>

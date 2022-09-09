@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router'
 
 // Usuall Component
 import NavBar from '@/components/NavBar.js'
 import Input from '@/components/Input'
 // Style
 import style from './index.module.scss'
-// Package
-
-import { useHistory } from 'react-router'
 
 // package
 import { Toast } from 'antd-mobile'

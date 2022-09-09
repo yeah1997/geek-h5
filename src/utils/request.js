@@ -2,6 +2,9 @@
 import { Toast } from 'antd-mobile'
 import axios from 'axios'
 
+// Storage
+import { getTokenInfo } from '@/utils/storage'
+
 export const BASE_URL = 'http://geek.itheima.net/v1_0'
 
 const instance = axios.create({
@@ -12,6 +15,11 @@ const instance = axios.create({
 // Request interceptors
 instance.interceptors.request.use(
   (config) => {
+    const token = getTokenInfo().token
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
   (error) => {
