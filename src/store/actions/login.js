@@ -3,6 +3,9 @@ import request from '@/utils/request'
 // storage
 import { setTokenInfo } from '@/utils/storage'
 
+// utils
+import { removeTokenInfo } from '@/utils/storage'
+
 // Send Code
 export const sendCode = (mobile) => {
   return async (dispatch) => {
@@ -34,5 +37,14 @@ export const login = (data) => {
 
     setTokenInfo(res.data) // save token info
     dispatch(saveToken(res.data)) // save to Store
+  }
+}
+
+export const logout = () => {
+  return (dispatch) => {
+    removeTokenInfo()
+    dispatch({
+      type: 'login/logout',
+    })
   }
 }

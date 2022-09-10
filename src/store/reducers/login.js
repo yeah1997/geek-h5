@@ -9,6 +9,8 @@ export default function login(state = initValue, action) {
   switch (type) {
     case 'login/token':
       return payload
+    case 'login/logout':
+      return initValue
     default:
       break
   }

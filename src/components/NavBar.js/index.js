@@ -7,11 +7,15 @@ import style from './index.module.scss'
 import Icon from '@/components/Icon'
 
 /** Navigation */
-export default function NavBar({ children, extra }) {
+export default function NavBar({ children, extra, onLeftClick }) {
   // Use histrory obj of Router
   const history = useHistory()
 
   const back = () => {
+    if (onLeftClick) {
+      onLeftClick()
+      return
+    }
     history.go(-1)
   }
 
