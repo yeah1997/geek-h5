@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 // Router
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
+import AuthRoute from '@/components/AuthRouter'
 
 // Style
 import style from './index.module.scss'
@@ -40,7 +41,7 @@ export default function Layout() {
           <Route exact path="/home" component={Home}></Route>
           <Route path="/home/qa" component={QA}></Route>
           <Route path="/home/video" component={Video}></Route>
-          <Route path="/home/profile" component={Profile}></Route>
+          <AuthRoute path="/home/profile" component={Profile}></AuthRoute>
         </Switch>
       </Suspense>
       {/* Router Setting */}

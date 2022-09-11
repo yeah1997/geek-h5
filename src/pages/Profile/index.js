@@ -91,21 +91,21 @@ export default function Profile() {
 
         {/* 更多服务菜单区域 */}
         <div className="more-service">
-          <h3>更多服务</h3>
+          <h3>More Service</h3>
           <div className="service-list">
             <div
               className="service-item"
               onClick={() => history.push('/profile/feedback')}
             >
               <Icon iconName="iconbtn_feedback" />
-              <div>用户反馈</div>
+              <div>Feedback</div>
             </div>
             <div
               className="service-item"
               onClick={() => history.push('/profile/chat')}
             >
               <Icon iconName="iconbtn_xiaozhitongxue" />
-              <div>小智同学</div>
+              <div>AI-Lee</div>
             </div>
           </div>
         </div>

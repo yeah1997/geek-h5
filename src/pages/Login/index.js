@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 
 // Usuall Component
-import NavBar from '@/components/NavBar.js'
+import NavBar from '@/components/NavBar/index.js'
 import Input from '@/components/Input'
 // Style
 import style from './index.module.scss'
@@ -22,6 +22,8 @@ export default function Login() {
   const dispatch = useDispatch()
   // history - Router
   const history = useHistory()
+  // location
+  const location = useLocation()
 
   const [countDown, setCountDown] = useState(0)
 
@@ -56,7 +58,12 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       await dispatch(login(values))
-      history.push('/home')
+
+      if (location.from) {
+        history.push(location.from)
+      } else {
+        history.push('/home')
+      }
     },
     validate,
   })
