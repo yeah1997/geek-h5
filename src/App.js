@@ -13,6 +13,7 @@ const Layout = React.lazy(() => import('@/pages/Layout'))
 const ProfileEdit = React.lazy(() => import('@/pages/Profile/Edit'))
 const ProfileChat = React.lazy(() => import('@/pages/Profile/Chat'))
 const NotFuond = React.lazy(() => import('@/pages/NotFound'))
+const Feedback = React.lazy(() => import('@/pages/Profile/Feedback'))
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
             <Route path="/home" component={Layout}></Route>
             <AuthRoute path="/profile/edit" component={ProfileEdit}></AuthRoute>
             <AuthRoute path="/profile/chat" component={ProfileChat}></AuthRoute>
-
+            <AuthRoute
+              path="/profile/feedback"
+              component={Feedback}
+            ></AuthRoute>
             {/* Not Found */}
             <Route component={NotFuond}></Route>
           </Switch>
