@@ -1,5 +1,6 @@
 // 用户 Token 的本地缓存键名
 const TOKEN_KEY = 'geek-token'
+const CHANNEL_LIST_KEY = 'geek_channel_list'
 
 /**
  * 从本地缓存中获取 Token 信息
@@ -28,4 +29,27 @@ export const removeTokenInfo = () => {
  */
 export const hasToken = () => {
   return !!getTokenInfo().token
+}
+
+/**
+ * set Chaneels
+ * @param {*} channels
+ */
+export const setLocalChannels = (channels) => {
+  localStorage.setItem(CHANNEL_LIST_KEY, JSON.stringify(channels))
+}
+
+/**
+ * get channels
+ * @returns
+ */
+export const getLocalChannels = () => {
+  return JSON.parse(localStorage.getItem(CHANNEL_LIST_KEY))
+}
+
+/**
+ * remove channels
+ */
+export const removeLocalChannels = () => {
+  localStorage.removeItem(CHANNEL_LIST_KEY)
 }
