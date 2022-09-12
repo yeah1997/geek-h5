@@ -13,7 +13,9 @@ export default function AuthRoute({ component: Component, ...rest }) {
           return <Component></Component>
         } else {
           return (
-            <Redirect to={{ pathname: '/login', from: location }}></Redirect>
+            <Redirect
+              to={{ pathname: '/login', state: { from: location } }}
+            ></Redirect>
           )
         }
       }}

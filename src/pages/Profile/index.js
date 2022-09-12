@@ -21,7 +21,6 @@ export default function Profile() {
 
   // Get user information from store
   const user = useSelector((state) => state.profile.user)
-  console.log(user)
 
   useEffect(() => {
     dispatch(getUserProfile())
