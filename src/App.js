@@ -1,15 +1,11 @@
 // React
 import React, { Suspense } from 'react'
 // Router
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
+import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import AuthRoute from '@/components/AuthRouter'
 
-//
+//history
+import history from '@/utils/history'
 
 // Components
 const Login = React.lazy(() => import('@/pages/Login'))
@@ -19,7 +15,7 @@ const ProfileChat = React.lazy(() => import('@/pages/Profile/Chat'))
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <div className="app">
         <Suspense fallback={<div>loading</div>}>
           <Switch>
