@@ -59,6 +59,10 @@ instance.interceptors.response.use(
     }
 
     // 401
+    if (!error.response.status === 401) {
+      Toast.info(error.response.data.message)
+      return Promise.reject(error)
+    }
   }
 )
 
