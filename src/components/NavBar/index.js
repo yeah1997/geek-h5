@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Router
-import { useHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 // package
 import classNames from 'classnames'
