@@ -13,8 +13,6 @@ const Layout = React.lazy(() => import('@/pages/Layout'))
 const ProfileEdit = React.lazy(() => import('@/pages/Profile/Edit'))
 const ProfileChat = React.lazy(() => import('@/pages/Profile/Chat'))
 
-console.log(history)
-
 function App() {
   return (
     <Router history={history}>
