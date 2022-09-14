@@ -160,7 +160,6 @@ export const getArticleList = (channelId, timeStamp) => {
  * @returns
  */
 export const setArticleList = (payload) => {
-  console.log(payload)
   return {
     type: SAVE_ARTICLE_LIST,
     payload,

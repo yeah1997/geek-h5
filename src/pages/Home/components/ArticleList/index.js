@@ -1,16 +1,13 @@
 // usuall Component
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import ArticleItem from '../ArticleItem'
-
-// request
-import request from '@/utils/request'
 
 // store-action
 import { getArticleList } from '@/store/actions/home'
 
 // style
 import styles from './index.module.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 /**
  * 文章列表组件
@@ -22,13 +19,25 @@ const ArticleList = ({ channelId, activeId }) => {
   const dispatch = useDispatch()
 
   // article list
-  const list = []
+  const currentArticleList = useSelector(
+    (state) => state.home.articles[channelId]
+  )
 
   useEffect(() => {
+    // article list of current page
+    if (currentArticleList) return
+
+    // is current page?
     if (channelId === activeId) {
       dispatch(getArticleList(channelId, Date.now()))
     }
-  }, [channelId, activeId, dispatch])
+  }, [channelId, activeId, dispatch, currentArticleList])
+
+  if (!currentArticleList) return null
+
+  console.log(currentArticleList)
+
+  const list = currentArticleList.articleList
 
   return (
     <div className={styles.root}>
