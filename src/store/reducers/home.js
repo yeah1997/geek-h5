@@ -1,8 +1,13 @@
-import { SAVE_CHANNELS, SAVE_ALL_CHANNELS } from '@/store/action_types/home'
+import {
+  SAVE_CHANNELS,
+  SAVE_ALL_CHANNELS,
+  SAVE_ARTICLE_LIST,
+} from '@/store/action_types/home'
 
 const initValue = {
   userChannels: [],
   allChannels: [],
+  articles: {},
 }
 
 export default function home(state = initValue, aciton) {
@@ -19,6 +24,18 @@ export default function home(state = initValue, aciton) {
       return {
         ...state,
         allChannels: payload,
+      }
+
+    case SAVE_ARTICLE_LIST:
+      return {
+        ...state,
+        articles: {
+          ...state.articles,
+          [payload.channelId]: {
+            timeStamp: payload.timeStamp,
+            articleList: payload.articleList,
+          },
+        },
       }
 
     default:

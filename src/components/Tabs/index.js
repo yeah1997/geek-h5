@@ -26,6 +26,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
     // TODO: 清理上一次的 animate
 
     const activeTab = navRef.current.children[activeIndex]
+    if (!activeTab) return
 
     const activeTabWidth = activeTab.offsetWidth || 60
     // 注意：第一次获取 offsetLeft 值为 0 ，以后每次获取为 8
@@ -78,10 +79,19 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
         </div>
 
         <div className="tabs-content">
-          {React.Children.map(children, (child) => {
-            return React.cloneElement(child, {
-              activeId: tabs[activeIndex]?.id || 0,
-            })
+          {React.Children.map(children, (child, index) => {
+            return (
+              // 为每个子元素包裹一个 div，用来控制显示或隐藏
+              <div
+                className="tabs-content-wrap"
+                style={{ display: index === activeIndex ? 'block' : 'none' }}
+              >
+                {
+                  // 为每个子元素生成副本，并传入选中选项卡的 id 值
+                  React.cloneElement(child, { aid: tabs[activeIndex]?.id || 0 })
+                }
+              </div>
+            )
           })}
         </div>
       </div>

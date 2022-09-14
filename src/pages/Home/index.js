@@ -8,6 +8,7 @@ import { Drawer } from 'antd-mobile'
 import Tabs from '@/components/Tabs'
 import Icon from '@/components/Icon'
 import Channels from './components/Channels'
+import ArticleList from './components/ArticleList'
 
 // style
 import styles from './index.module.scss'
@@ -21,9 +22,13 @@ export default function Home() {
   // Channel list open
   const [open, setOpen] = useState(false)
 
+  // active channel
+  const [activeChannel, setActiveChannel] = useState(0)
+
   // channel list
   const channels = useSelector((state) => state.home.userChannels)
 
+  console.log('tbas')
   useEffect(() => {
     dispatch(getUserChannels())
     dispatch(getAllChannels())
@@ -36,7 +41,22 @@ export default function Home() {
 
   return (
     <div className={styles.root}>
-      <Tabs tabs={channels}></Tabs>
+      <Tabs
+        tabs={channels}
+        index={activeChannel}
+        onChange={(i) => {
+          setActiveChannel(i)
+        }}
+      >
+        {channels.map((item) => (
+          <ArticleList
+            key={item.id}
+            channelId={item.id}
+            activeId={channels[activeChannel].id}
+          ></ArticleList>
+        ))}
+      </Tabs>
+
       <div className="tabs-opration">
         <Icon iconName="iconbtn_search" />
         <Icon
@@ -51,7 +71,17 @@ export default function Home() {
         className="my-drawer"
         position="left"
         children={''}
-        sidebar={open && <Channels onClose={drawerClose}></Channels>}
+        sidebar={
+          open && (
+            <Channels
+              onClose={drawerClose}
+              index={activeChannel}
+              onChange={(i) => {
+                setActiveChannel(i)
+              }}
+            ></Channels>
+          )
+        }
         open={open}
       ></Drawer>
       {/* Channel Manager */}
