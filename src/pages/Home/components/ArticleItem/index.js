@@ -1,17 +1,28 @@
+import { useSelector, useDispatch } from 'react-redux'
+
+// usuall Component
+import Icon from '@/components/Icon'
+import Img from '@/components/Img'
+
 // package
 import classnames from 'classnames'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
-import Icon from '@/components/Icon'
+// store-action
+import { setMoreAction } from '@/store/actions/home'
+
 import styles from './index.module.scss'
 import 'dayjs/locale/zh-cn'
 
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
-const ArticleItem = ({ className, article }) => {
-  // const images = ['http://geek.itheima.net/resources/images/3.jpg']
+const ArticleItem = ({ className, article, channelId }) => {
+  // dispatch
+  const dispatch = useDispatch()
+
+  const hasLogin = useSelector((state) => state.login.token)
 
   const {
     cover: { type, images },
@@ -20,6 +31,16 @@ const ArticleItem = ({ className, article }) => {
     comm_count,
     pubdate,
   } = article
+
+  const onClick = () => {
+    dispatch(
+      setMoreAction({
+        visible: true,
+        articleId: article.art_id,
+        channelId,
+      })
+    )
+  }
 
   return (
     <div className={styles.root}>
@@ -35,7 +56,7 @@ const ArticleItem = ({ className, article }) => {
           <div className="article-imgs">
             {images.map((item, i) => (
               <div className="article-img-wrapper" key={i}>
-                <img src={item} alt="" />
+                <Img src={item} alt="" />
               </div>
             ))}
           </div>
@@ -49,7 +70,9 @@ const ArticleItem = ({ className, article }) => {
 
         {/*  */}
         <span className="close">
-          <Icon iconName="iconbtn_essay_close" />
+          {hasLogin && (
+            <Icon iconName="iconbtn_essay_close" onClick={onClick} />
+          )}
         </span>
       </div>
     </div>

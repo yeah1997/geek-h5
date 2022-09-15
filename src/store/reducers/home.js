@@ -2,12 +2,17 @@ import {
   SAVE_CHANNELS,
   SAVE_ALL_CHANNELS,
   SAVE_ARTICLE_LIST,
+  FEEDBACK_TO_ARTICLE,
 } from '@/store/action_types/home'
 
 const initValue = {
   userChannels: [],
   allChannels: [],
   articles: {},
+  moreAction: {
+    visible: false,
+    articleId: '',
+  },
 }
 
 export default function home(state = initValue, aciton) {
@@ -40,6 +45,12 @@ export default function home(state = initValue, aciton) {
               : articleList,
           },
         },
+      }
+
+    case FEEDBACK_TO_ARTICLE:
+      return {
+        ...state,
+        moreAction: payload,
       }
 
     default:

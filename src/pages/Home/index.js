@@ -9,6 +9,7 @@ import Tabs from '@/components/Tabs'
 import Icon from '@/components/Icon'
 import Channels from './components/Channels'
 import ArticleList from './components/ArticleList'
+import MoreAction from './components/MoreAction'
 
 // style
 import styles from './index.module.scss'
@@ -84,6 +85,7 @@ export default function Home() {
         open={open}
       ></Drawer>
       {/* Channel Manager */}
+      <MoreAction></MoreAction>
     </div>
   )
 }

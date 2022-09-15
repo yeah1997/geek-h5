@@ -4,6 +4,7 @@ import {
   SAVE_CHANNELS,
   SAVE_ALL_CHANNELS,
   SAVE_ARTICLE_LIST,
+  FEEDBACK_TO_ARTICLE,
 } from '@/store/action_types/home'
 
 import { hasToken, getLocalChannels, setLocalChannels } from '@/utils/storage'
@@ -165,5 +166,75 @@ export const setArticleList = (payload) => {
   return {
     type: SAVE_ARTICLE_LIST,
     payload,
+  }
+}
+
+/**
+ * Feedback article information
+ * @param {*} payload
+ * @returns
+ */
+export const setMoreAction = (payload) => {
+  return {
+    type: FEEDBACK_TO_ARTICLE,
+    payload,
+  }
+}
+
+/**
+ *
+ * @param {*} articleId
+ * @returns
+ */
+export const unLikeArticle = (articleId) => {
+  return async (dispatch, getState) => {
+    await request({
+      url: '/article/dislikes',
+      method: 'POST',
+      data: {
+        target: articleId,
+      },
+    })
+
+    const channelId = getState().home.moreAction.channelId
+    const articles = getState().home.articles[channelId]
+
+    console.log(articles)
+    dispatch(
+      setArticleList({
+        channelId,
+        timestamp: articles.timestamp,
+        articleList: articles.articleList.filter(
+          (item) => item.art_id !== articleId
+        ),
+      })
+    )
+  }
+}
+
+export const reportArticle = (articleId, reportId) => {
+  return async (dispatch, getState) => {
+    await request({
+      url: '/article/dislikes',
+      method: 'POST',
+      data: {
+        target: articleId,
+        type: reportId,
+      },
+    })
+
+    const channelId = getState().home.moreAction.channelId
+    const articles = getState().home.articles[channelId]
+
+    console.log(articles)
+    dispatch(
+      setArticleList({
+        channelId,
+        timestamp: articles.timestamp,
+        articleList: articles.articleList.filter(
+          (item) => item.art_id !== articleId
+        ),
+      })
+    )
   }
 }

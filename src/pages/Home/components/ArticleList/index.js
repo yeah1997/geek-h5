@@ -1,5 +1,5 @@
-// usuall Component
 import { useEffect } from 'react'
+// usuall Component
 import ArticleItem from '../ArticleItem'
 
 // store-action
