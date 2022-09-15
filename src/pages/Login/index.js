@@ -58,10 +58,11 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       await dispatch(login(values))
-      console.log(location.state)
-      if (location.state.from) {
+      console.log(location)
+      if (location.state) {
         history.replace(location.state.from)
       } else {
+        console.log('object')
         history.replace('/home')
       }
     },
