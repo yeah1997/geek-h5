@@ -27,13 +27,17 @@ export default function home(state = initValue, aciton) {
       }
 
     case SAVE_ARTICLE_LIST:
+      const { channelId, timestamp, articleList, loadMore } = payload
+
       return {
         ...state,
         articles: {
           ...state.articles,
-          [payload.channelId]: {
-            timeStamp: payload.timeStamp,
-            articleList: payload.articleList,
+          [channelId]: {
+            timestamp,
+            articleList: loadMore
+              ? [...state.articles[channelId].articleList, ...articleList]
+              : articleList,
           },
         },
       }

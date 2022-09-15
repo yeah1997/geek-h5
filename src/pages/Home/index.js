@@ -28,7 +28,6 @@ export default function Home() {
   // channel list
   const channels = useSelector((state) => state.home.userChannels)
 
-  console.log('tbas')
   useEffect(() => {
     dispatch(getUserChannels())
     dispatch(getAllChannels())

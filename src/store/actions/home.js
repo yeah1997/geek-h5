@@ -134,21 +134,23 @@ export const addChannel = (channel) => {
  * @param {*} timeStamp
  * @returns
  */
-export const getArticleList = (channelId, timeStamp) => {
+export const getArticleList = (channelId, timestamp, loadMore = false) => {
   return async (dispatch) => {
     const res = await request({
       method: 'GET',
       url: '/articles',
       params: {
         channel_id: channelId,
-        timestamp: Date.now(),
+        timestamp,
       },
     })
+
     dispatch(
       setArticleList({
         channelId,
-        timeStamp: res.data.pre_timestamp,
+        timestamp: res.data.pre_timestamp,
         articleList: res.data.results,
+        loadMore,
       })
     )
   }
