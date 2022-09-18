@@ -1,10 +1,15 @@
 import React from 'react'
 
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, RouteProps } from 'react-router-dom'
 
 import { hasToken } from '@/utils/storage'
 
-export default function AuthRoute({ component: Component, ...rest }) {
+/** Type */
+interface Props extends RouteProps {
+  component: React.ComponentType<any>
+}
+
+export default function AuthRoute({ component: Component, ...rest }: Props) {
   return (
     <Route
       {...rest}
