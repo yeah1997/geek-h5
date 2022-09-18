@@ -10,9 +10,16 @@ import classNames from 'classnames'
 import styles from './index.module.scss'
 import { useEffect } from 'react'
 
-export default function Img({ src, className, alt }) {
+/** type */
+type Props = {
+  src: string
+  className?: string
+  alt?: string
+}
+
+export default function Img({ src, className, alt }: Props) {
   // ref
-  const imgRef = useRef(null)
+  const imgRef = useRef<HTMLImageElement>(null)
 
   // loading
   const [loading, setLoading] = useState(true)
@@ -21,16 +28,18 @@ export default function Img({ src, className, alt }) {
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    // iamge element
+    const imgCurrent = imgRef.current!
     // img listener
     const observer = new IntersectionObserver((entry) => {
       // on visiable
       if (entry[0].isIntersecting) {
-        imgRef.current.src = imgRef.current.dataset.src
-        observer.unobserve(imgRef.current)
+        imgCurrent.src = imgCurrent.dataset.src!
+        observer.unobserve(imgCurrent)
       }
     })
     // start observing
-    observer.observe(imgRef.current)
+    observer.observe(imgCurrent)
   }, [])
 
   // img load successfully

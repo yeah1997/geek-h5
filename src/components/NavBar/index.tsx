@@ -1,5 +1,3 @@
-import React from 'react'
-
 // Router
 import { useHistory } from 'react-router-dom'
 
@@ -9,8 +7,16 @@ import classNames from 'classnames'
 import style from './index.module.scss'
 import Icon from '@/components/Icon'
 
+/** type */
+type Props = {
+  children?: string | JSX.Element
+  extra?: string | JSX.Element
+  onLeftClick?: () => void
+  className?: string
+}
+
 /** Navigation */
-export default function NavBar({ children, extra, onLeftClick, className }) {
+function NavBar({ children, extra, onLeftClick, className }: Props) {
   // Use histrory obj of Router
   const history = useHistory()
 
@@ -36,3 +42,5 @@ export default function NavBar({ children, extra, onLeftClick, className }) {
     </div>
   )
 }
+
+export default NavBar

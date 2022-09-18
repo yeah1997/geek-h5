@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 // Usuall Component
-import NavBar from '@/components/NavBar/index.js'
+import NavBar from '@/components/NavBar'
 import Textarea from '@/components/Textarea'
 import Input from '@/components/Input'
 

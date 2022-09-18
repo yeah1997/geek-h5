@@ -1,6 +1,6 @@
 // axios
 import { Toast } from 'antd-mobile'
-import axios from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 // Storage
 import { getTokenInfo, setTokenInfo, removeTokenInfo } from '@/utils/storage'
@@ -21,11 +21,11 @@ const instance = axios.create({
 
 // Request interceptors
 instance.interceptors.request.use(
-  (config) => {
+  (config: AxiosRequestConfig) => {
     const token = getTokenInfo().token
 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      config.headers!.Authorization = `Bearer ${token}`
     }
     return config
   },
@@ -39,7 +39,7 @@ instance.interceptors.response.use(
   (response) => {
     return response.data
   },
-  async (error) => {
+  async (error: AxiosError<{ message: string }>) => {
     // no Error Response
     if (!error.response) {
       // Toast.info(error.response.data.message)
@@ -48,7 +48,7 @@ instance.interceptors.response.use(
     }
 
     // is not 401
-    if (!error.response.status === 401) {
+    if (error.response.status !== 401) {
       Toast.info(error.response.data.message)
       return Promise.reject(error)
     }

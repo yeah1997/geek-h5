@@ -2,18 +2,28 @@
 const TOKEN_KEY = 'geek-token'
 const CHANNEL_LIST_KEY = 'geek_channel_list'
 
+/** Type */
+// Token
+type Token = {
+  refresh_token: string
+  token: string
+}
+
+type Channles = Array<{ id: number; name: string }>
+
 /**
  * 从本地缓存中获取 Token 信息
  */
-export const getTokenInfo = () => {
-  return JSON.parse(localStorage.getItem(TOKEN_KEY)) || {}
+export const getTokenInfo = (): Token => {
+  // return JSON.parse(localStorage.getItem(TOKEN_KEY)) || {}
+  return JSON.parse(localStorage.getItem(TOKEN_KEY)!) || {}
 }
 
 /**
  * 将 Token 信息存入缓存
  * @param {Object} tokenInfo 从后端获取到的 Token 信息
  */
-export const setTokenInfo = (tokenInfo) => {
+export const setTokenInfo = (tokenInfo: Token): void => {
   localStorage.setItem(TOKEN_KEY, JSON.stringify(tokenInfo))
 }
 
@@ -35,7 +45,7 @@ export const hasToken = () => {
  * set Chaneels
  * @param {*} channels
  */
-export const setLocalChannels = (channels) => {
+export const setLocalChannels = (channels: Channles) => {
   localStorage.setItem(CHANNEL_LIST_KEY, JSON.stringify(channels))
 }
 
@@ -44,7 +54,7 @@ export const setLocalChannels = (channels) => {
  * @returns
  */
 export const getLocalChannels = () => {
-  return JSON.parse(localStorage.getItem(CHANNEL_LIST_KEY))
+  return JSON.parse(localStorage.getItem(CHANNEL_LIST_KEY)!)
 }
 
 /**

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 // compo
 import Icon from '@/components/Icon'
 import Input from '@/components/Input'
-import NavBar from '@/components/NavBar/index.js'
+import NavBar from '@/components/NavBar'
 
 // package
 import sokectIO from 'socket.io-client'

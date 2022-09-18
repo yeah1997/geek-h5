@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // antd
 import { List, DatePicker, Drawer, Toast, Modal } from 'antd-mobile'
 // Usuall Component
-import NavBar from '@/components/NavBar/index.js'
+import NavBar from '@/components/NavBar'
 import EditInput from './components/EditInput'
 import EditList from './components/EditList/idnex'
 

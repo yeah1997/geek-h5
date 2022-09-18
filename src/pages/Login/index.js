@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 
 // Usuall Component
-import NavBar from '@/components/NavBar/index.js'
+import NavBar from '@/components/NavBar'
 import Input from '@/components/Input'
 // Style
 import style from './index.module.scss'
