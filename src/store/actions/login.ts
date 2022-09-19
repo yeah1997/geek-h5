@@ -26,7 +26,7 @@ export const sendCode = (mobile: string) => {
 // Store new token
 export const saveToken = (payload: Token) => {
   return {
-    type: 'login/token',
+    type: 'login/token' as const,
     payload,
   }
 }

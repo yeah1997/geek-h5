@@ -1,4 +1,9 @@
-const initValue = {
+type Type = {
+  refresh_token: string
+  token: string
+}
+
+const initValue: Type = {
   refresh_token: '',
   token: '',
 }
@@ -10,7 +15,7 @@ export default function login(state = initValue, action: any) {
     case 'login/token':
       return payload
     case 'login/logout':
-      return initValue
+      return {} as Type
     default:
       break
   }

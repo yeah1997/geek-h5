@@ -1,8 +1,9 @@
 import request from '@/utils/request'
-import { Dispatch } from 'redux'
 
 // Type
 import { User, Profile, ProfileAction } from '../reducers/profile'
+
+import { RootThunkAction } from '../'
 
 /**
  * Save user infomation to store
@@ -20,8 +21,8 @@ export const saveUserProfile = (payload: User): ProfileAction => {
  * get User Profile
  * @returns
  */
-export const getUserProfile = () => {
-  return async (dispatch: Dispatch) => {
+export const getUserProfile = (): RootThunkAction => {
+  return async (dispatch) => {
     const res = await request({
       method: 'GET',
       url: '/user',
@@ -47,8 +48,8 @@ export const saveUserDetail = (payload: Profile): ProfileAction => {
  * get User Detail
  * @returns
  */
-export const getUserDetail = () => {
-  return async (dispatch: Dispatch) => {
+export const getUserDetail = (): RootThunkAction => {
+  return async (dispatch) => {
     const res = await request({
       method: 'GET',
       url: '/user/profile',
@@ -64,8 +65,8 @@ type PartialProfile = Partial<Profile>
  * @param {*} data
  * @returns
  */
-export const updateProfile = (data: PartialProfile) => {
-  return async (dispatch: any) => {
+export const updateProfile = (data: PartialProfile): RootThunkAction => {
+  return async (dispatch) => {
     await request({
       method: 'PATCH',
       url: '/user/profile',
@@ -80,8 +81,8 @@ export const updateProfile = (data: PartialProfile) => {
  * @param {*} formData
  * @returns
  */
-export const updatePhoto = (formData: FormData) => {
-  return async (dispatch: any) => {
+export const updatePhoto = (formData: FormData): RootThunkAction => {
+  return async (dispatch) => {
     await request.patch('/user/photo', formData)
     dispatch(getUserDetail())
   }

@@ -12,6 +12,8 @@ import styles from './index.module.scss'
 
 // Store-aciton
 import { getUserProfile } from '@/store/actions/profile'
+// Store-Type
+import { RootState } from '@/store'
 
 export default function Profile() {
   // history
@@ -20,7 +22,11 @@ export default function Profile() {
   const dispatch = useDispatch()
 
   // Get user information from store
-  const user = useSelector((state) => state.profile.user)
+  // const user = useSelector<RootState, User>((state) => state.profile.user)
+  // const user = useSelector<RootState, RootState['profile']['user']>(
+  //   (state) => state.profile.user
+  // )
+  const user = useSelector((state: RootState) => state.profile.user)
 
   useEffect(() => {
     dispatch(getUserProfile())

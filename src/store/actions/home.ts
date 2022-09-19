@@ -1,19 +1,20 @@
 import request from '@/utils/request'
 
-import {
-  SAVE_CHANNELS,
-  SAVE_ALL_CHANNELS,
-  SAVE_ARTICLE_LIST,
-  FEEDBACK_TO_ARTICLE,
-} from '@/store/action_types/home'
-
 import { hasToken, getLocalChannels, setLocalChannels } from '@/utils/storage'
+import { Dispatch } from 'redux'
+import {
+  ArticlPayload,
+  Channel,
+  HomeAction,
+  MoreAction,
+} from '../reducers/home'
+import { RootThunkAction } from '@/store'
 
 /**
  * get User Channels
  * @returns
  */
-export const getUserChannels = () => {
+export const getUserChannels = (): RootThunkAction => {
   return async (dispatch) => {
     // there is token
     if (hasToken()) {
@@ -44,9 +45,9 @@ export const getUserChannels = () => {
  * @param {*} payload
  * @returns
  */
-export const saveUserChaneels = (payload) => {
+export const saveUserChaneels = (payload: Channel[]): HomeAction => {
   return {
-    type: SAVE_CHANNELS,
+    type: 'home/saveChannels',
     payload,
   }
 }
@@ -55,7 +56,7 @@ export const saveUserChaneels = (payload) => {
  * get All Channels
  * @returns
  */
-export const getAllChannels = () => {
+export const getAllChannels = (): RootThunkAction => {
   return async (dispatch) => {
     const res = await request({
       method: 'GET',
@@ -70,9 +71,9 @@ export const getAllChannels = () => {
  * @param {*} payload
  * @returns
  */
-export const saveAllChannels = (payload) => {
+export const saveAllChannels = (payload: Channel[]): HomeAction => {
   return {
-    type: SAVE_ALL_CHANNELS,
+    type: 'home/saveAllCHannels',
     payload,
   }
 }
@@ -82,7 +83,7 @@ export const saveAllChannels = (payload) => {
  * @param {*} channel
  * @returns
  */
-export const deleteChannel = (channel) => {
+export const deleteChannel = (channel: Channel): RootThunkAction => {
   return async (dispatch, getState) => {
     const userChannels = getState().home.userChannels
 
@@ -111,7 +112,7 @@ export const deleteChannel = (channel) => {
  * @param {*} channel
  * @returns
  */
-export const addChannel = (channel) => {
+export const addChannel = (channel: Channel): RootThunkAction => {
   return async (dispatch, getState) => {
     if (hasToken()) {
       await request({
@@ -135,7 +136,11 @@ export const addChannel = (channel) => {
  * @param {*} timeStamp
  * @returns
  */
-export const getArticleList = (channelId, timestamp, loadMore = false) => {
+export const getArticleList = (
+  channelId: number,
+  timestamp: string,
+  loadMore = false
+): RootThunkAction => {
   return async (dispatch) => {
     const res = await request({
       method: 'GET',
@@ -162,9 +167,9 @@ export const getArticleList = (channelId, timestamp, loadMore = false) => {
  * @param {*} payload
  * @returns
  */
-export const setArticleList = (payload) => {
+export const setArticleList = (payload: ArticlPayload): HomeAction => {
   return {
-    type: SAVE_ARTICLE_LIST,
+    type: 'home/saveArticleList',
     payload,
   }
 }
@@ -174,9 +179,9 @@ export const setArticleList = (payload) => {
  * @param {*} payload
  * @returns
  */
-export const setMoreAction = (payload) => {
+export const setMoreAction = (payload: MoreAction): HomeAction => {
   return {
-    type: FEEDBACK_TO_ARTICLE,
+    type: 'home/feedbackToArticle',
     payload,
   }
 }
@@ -186,7 +191,7 @@ export const setMoreAction = (payload) => {
  * @param {*} articleId
  * @returns
  */
-export const unLikeArticle = (articleId) => {
+export const unLikeArticle = (articleId: string): RootThunkAction => {
   return async (dispatch, getState) => {
     await request({
       url: '/article/dislikes',
@@ -212,8 +217,11 @@ export const unLikeArticle = (articleId) => {
   }
 }
 
-export const reportArticle = (articleId, reportId) => {
-  return async (dispatch, getState) => {
+export const reportArticle = (
+  articleId: string,
+  reportId: string
+): RootThunkAction => {
+  return async (dispatch: Dispatch, getState) => {
     await request({
       url: '/article/dislikes',
       method: 'POST',
