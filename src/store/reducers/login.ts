@@ -1,11 +1,9 @@
-import { AnyAction } from 'redux'
-
 const initValue = {
   refresh_token: '',
   token: '',
 }
 
-export default function login(state = initValue, action: AnyAction) {
+export default function login(state = initValue, action: any) {
   const { type, payload } = action
 
   switch (type) {

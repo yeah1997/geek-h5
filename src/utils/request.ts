@@ -79,7 +79,7 @@ instance.interceptors.response.use(
           refresh_token,
         }
         // Save to redux & storage
-        store.dispatch(saveToken, tokenInfo)
+        store.dispatch(saveToken(tokenInfo))
         setTokenInfo(tokenInfo)
 
         // update instance by new token

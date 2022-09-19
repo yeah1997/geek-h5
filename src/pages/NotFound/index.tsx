@@ -1,10 +1,8 @@
-import { TIMEOUT } from 'dns'
 import React from 'react'
 
 import { useState, useEffect, useRef } from 'react'
 
 import { Link, useHistory } from 'react-router-dom'
-import { number } from 'yup/lib/locale'
 
 export default function NotFuond() {
   // 倒计时秒数
