@@ -1,16 +1,17 @@
 import request from '@/utils/request'
+import { Dispatch } from 'redux'
 
-// Action type
-import { PROFILE_USER, PROFILE_DETAIL } from '@/store/action_types/profile'
+// Type
+import { User, Profile, ProfileAction } from '../reducers/profile'
 
 /**
  * Save user infomation to store
  * @param {*} payload
  * @returns
  */
-export const saveUserProfile = (payload) => {
+export const saveUserProfile = (payload: User): ProfileAction => {
   return {
-    type: PROFILE_USER,
+    type: 'profile/saveUser',
     payload,
   }
 }
@@ -20,7 +21,7 @@ export const saveUserProfile = (payload) => {
  * @returns
  */
 export const getUserProfile = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     const res = await request({
       method: 'GET',
       url: '/user',
@@ -35,9 +36,9 @@ export const getUserProfile = () => {
  * @param {*} payload
  * @returns
  */
-export const saveUserDetail = (payload) => {
+export const saveUserDetail = (payload: Profile): ProfileAction => {
   return {
-    type: PROFILE_DETAIL,
+    type: 'profile/saveUserDetail',
     payload,
   }
 }
@@ -47,7 +48,7 @@ export const saveUserDetail = (payload) => {
  * @returns
  */
 export const getUserDetail = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     const res = await request({
       method: 'GET',
       url: '/user/profile',
@@ -57,13 +58,14 @@ export const getUserDetail = () => {
   }
 }
 
+type PartialProfile = Partial<Profile>
 /**
  * updata User Profile
  * @param {*} data
  * @returns
  */
-export const updateProfile = (data) => {
-  return async (dispatch) => {
+export const updateProfile = (data: PartialProfile) => {
+  return async (dispatch: any) => {
     await request({
       method: 'PATCH',
       url: '/user/profile',
@@ -78,13 +80,9 @@ export const updateProfile = (data) => {
  * @param {*} formData
  * @returns
  */
-export const updatePhoto = (formData) => {
-  return async (dispatch) => {
-    await request({
-      method: 'PATCH',
-      url: '/user/photo',
-      formData,
-    })
+export const updatePhoto = (formData: FormData) => {
+  return async (dispatch: any) => {
+    await request.patch('/user/photo', formData)
     dispatch(getUserDetail())
   }
 }
