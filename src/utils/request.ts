@@ -10,7 +10,7 @@ import history from './history'
 
 // store
 import store from '@/store'
-import { saveToken, logout } from '@/store/actions/login'
+import { saveToken } from '@/store/actions/login'
 
 export const BASE_URL = 'http://geek.itheima.net/v1_0'
 
@@ -88,7 +88,12 @@ instance.interceptors.response.use(
     } catch (err) {
       // remove token
       removeTokenInfo()
-      store.dispatch(logout())
+      store.dispatch(
+        saveToken({
+          token: '',
+          refresh_token: '',
+        })
+      )
 
       history.push({
         pathname: '/login',
