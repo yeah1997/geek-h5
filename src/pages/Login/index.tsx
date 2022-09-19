@@ -23,14 +23,14 @@ export default function Login() {
   // history - Router
   const history = useHistory()
   // location
-  const location = useLocation()
+  const location = useLocation<{ from: Location }>()
 
   const [countDown, setCountDown] = useState(0)
 
   /************ formik ************/
   // Validate Data Obj
-  const validate = (values) => {
-    const errors = {}
+  const validate = (values: any) => {
+    const errors: any = {}
     // mobile input check
     if (!values.mobile) {
       errors.mobile = 'Required'
@@ -58,6 +58,7 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       await dispatch(login(values))
+
       if (location.state) {
         history.replace(location.state.from)
       } else {
@@ -117,7 +118,7 @@ export default function Login() {
             <Input
               placeholder="phone number"
               autoComplete="off"
-              maxLength="11"
+              maxLength={11}
               value={mobile}
               name="mobile"
               onChange={handleChange}
@@ -135,7 +136,7 @@ export default function Login() {
             <Input
               placeholder="Code"
               autoComplete="off"
-              maxLength="6"
+              maxLength={6}
               extra={{
                 message: countDown === 0 ? 'send message code' : countDown,
                 extraClik,

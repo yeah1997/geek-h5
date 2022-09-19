@@ -1,5 +1,5 @@
 // Combine Reducers
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux' // es6
 
 // Reducer
 import login from './login'

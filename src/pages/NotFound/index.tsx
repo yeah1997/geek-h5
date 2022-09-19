@@ -1,8 +1,10 @@
+import { TIMEOUT } from 'dns'
 import React from 'react'
 
 import { useState, useEffect, useRef } from 'react'
 
 import { Link, useHistory } from 'react-router-dom'
+import { number } from 'yup/lib/locale'
 
 export default function NotFuond() {
   // 倒计时秒数
@@ -13,7 +15,7 @@ export default function NotFuond() {
   const timerRef = useRef(-1)
 
   useEffect(() => {
-    timerRef.current = setTimeout(() => {
+    timerRef.current = window.setTimeout(() => {
       setSecond((second) => second - 1)
       if (second === 0) {
         clearInterval(timerRef.current)

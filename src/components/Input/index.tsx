@@ -17,7 +17,7 @@ import style from './index.module.scss'
 // }
 type Props = {
   extra?: {
-    message: string
+    message: string | number
     extraClik: () => void
   }
   autoFocus?: boolean
