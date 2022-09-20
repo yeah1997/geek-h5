@@ -13,6 +13,7 @@ import { deleteChannel, addChannel } from '@/store/actions/home'
 import classNames from 'classnames'
 import { useState } from 'react'
 import { Toast } from 'antd-mobile'
+import { RootState } from '@/store'
 
 /**
  * 频道管理组件
@@ -26,7 +27,7 @@ const Channels = ({
   onChannelClick,
   index,
   onChange,
-}) => {
+}: any) => {
   // dispatch
   const dispatch = useDispatch()
 
@@ -34,9 +35,11 @@ const Channels = ({
   const [edit, setEdit] = useState(false)
 
   // channel list
-  const userChannels = useSelector((state) => state.home.userChannels)
+  const userChannels = useSelector(
+    (state: RootState) => state.home.userChannels
+  )
 
-  const recomendChannels = useSelector((state) => {
+  const recomendChannels = useSelector((state: RootState) => {
     const { userChannels, allChannels } = state.home
     return $differenceBy(allChannels, userChannels, 'id')
     // new List
@@ -51,14 +54,14 @@ const Channels = ({
 
   // event
   // change channel
-  const changeChannel = (i) => {
+  const changeChannel = (i: any) => {
     // is edit mode?
     if (edit) return
     onChange(i)
     onClose()
   }
   //delete channel
-  const deleteItem = (channel, i) => {
+  const deleteItem = (channel: any, i: any) => {
     // is smaller than 4?
     if (userChannels.length <= 4) {
       Toast.info('4 channels at least')
@@ -74,7 +77,7 @@ const Channels = ({
     }
   }
 
-  const addItem = (channel) => {
+  const addItem = (channel: any) => {
     dispatch(addChannel(channel))
   }
 

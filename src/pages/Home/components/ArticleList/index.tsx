@@ -12,19 +12,20 @@ import { PullToRefresh, InfiniteScroll } from 'antd-mobile-v5'
 import styles from './index.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
+import { RootState } from '@/store'
 
 /**
  * 文章列表组件
  * @param {String} props.channelId 当前文章列表所对应的频道ID
  * @param {String} props.aid 当前 Tab 栏选中的频道ID
  */
-const ArticleList = ({ channelId, activeId }) => {
+const ArticleList = ({ channelId, activeId }: any) => {
   // dispatch
   const dispatch = useDispatch()
 
   // article list
   const currentArticleList = useSelector(
-    (state) => state.home.articles[channelId]
+    (state: RootState) => state.home.articles[channelId]
   )
 
   useEffect(() => {
@@ -33,14 +34,14 @@ const ArticleList = ({ channelId, activeId }) => {
 
     // is current page?
     if (channelId === activeId) {
-      dispatch(getArticleList(channelId, Date.now()))
+      dispatch(getArticleList(channelId, Date.now() + ''))
     }
   }, [channelId, activeId, dispatch, currentArticleList])
 
   const onRefresh = async () => {
     // update data
     setHasMore(true)
-    await dispatch(getArticleList(channelId, Date.now()))
+    await dispatch(getArticleList(channelId, Date.now() + ''))
   }
 
   // hasMore?

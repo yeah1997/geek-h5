@@ -14,15 +14,23 @@ import { setMoreAction } from '@/store/actions/home'
 
 import styles from './index.module.scss'
 import 'dayjs/locale/zh-cn'
+import { RootState } from '@/store'
+import { Article } from '@/store/reducers/home'
 
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
-const ArticleItem = ({ className, article, channelId }) => {
+type Props = {
+  className?: unknown
+  article: Article
+  channelId: number
+}
+
+const ArticleItem = ({ article, channelId }: Props) => {
   // dispatch
   const dispatch = useDispatch()
 
-  const hasLogin = useSelector((state) => state.login.token)
+  const hasLogin = useSelector((state: RootState) => state.login.token)
 
   const {
     cover: { type, images },

@@ -16,6 +16,7 @@ import styles from './index.module.scss'
 
 // Store-aciton
 import { getUserChannels, getAllChannels } from '@/store/actions/home'
+import { RootState } from '@/store'
 
 export default function Home() {
   // dispatch
@@ -27,7 +28,7 @@ export default function Home() {
   const [activeChannel, setActiveChannel] = useState(0)
 
   // channel list
-  const channels = useSelector((state) => state.home.userChannels)
+  const channels = useSelector((state: RootState) => state.home.userChannels)
 
   useEffect(() => {
     dispatch(getUserChannels())
@@ -44,7 +45,7 @@ export default function Home() {
       <Tabs
         tabs={channels}
         index={activeChannel}
-        onChange={(i) => {
+        onChange={(i: any) => {
           setActiveChannel(i)
         }}
       >
@@ -76,7 +77,7 @@ export default function Home() {
             <Channels
               onClose={drawerClose}
               index={activeChannel}
-              onChange={(i) => {
+              onChange={(i: any) => {
                 setActiveChannel(i)
               }}
             ></Channels>

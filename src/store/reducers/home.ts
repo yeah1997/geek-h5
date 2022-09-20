@@ -34,7 +34,7 @@ export type MoreAction = {
   articleId: string
   channelId: number
 }
-type Article = {
+export type Article = {
   art_id: string
   title: string
   aut_id: string
@@ -43,8 +43,8 @@ type Article = {
   aut_name: string
   is_top?: boolean
   cover: {
-    type: string
-    images?: string
+    type: number
+    images: string[]
   }
 }
 
