@@ -14,6 +14,7 @@ const ProfileEdit = React.lazy(() => import('@/pages/Profile/Edit'))
 const ProfileChat = React.lazy(() => import('@/pages/Profile/Chat'))
 const NotFuond = React.lazy(() => import('@/pages/NotFound'))
 const Feedback = React.lazy(() => import('@/pages/Profile/Feedback'))
+const Search = React.lazy(() => import('@/pages/Search'))
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Redirect exact from="/" to="/home"></Redirect>
             <Route path="/login" component={Login}></Route>
             <Route path="/home" component={Layout}></Route>
+            <Route path="/search" component={Search}></Route>
             <AuthRoute path="/profile/edit" component={ProfileEdit}></AuthRoute>
             <AuthRoute path="/profile/chat" component={ProfileChat}></AuthRoute>
             <AuthRoute

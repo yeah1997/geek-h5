@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 
 // antd
 import { Drawer } from 'antd-mobile'
@@ -21,6 +22,9 @@ import { RootState } from '@/store'
 export default function Home() {
   // dispatch
   const dispatch = useDispatch()
+  // history
+  const history = useHistory()
+
   // Channel list open
   const [open, setOpen] = useState(false)
 
@@ -59,7 +63,10 @@ export default function Home() {
       </Tabs>
 
       <div className="tabs-opration">
-        <Icon iconName="iconbtn_search" />
+        <Icon
+          iconName="iconbtn_search"
+          onClick={() => history.push('/search')}
+        />
         <Icon
           iconName="iconbtn_channel"
           onClick={() => {
