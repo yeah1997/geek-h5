@@ -32,7 +32,7 @@ export const getCommentList = (id: string, type = 'a'): RootThunkAction => {
 }
 
 /**
- *
+ * get More Commnet List
  * @returns
  */
 export const getMoreCommentList = (
@@ -48,5 +48,32 @@ export const getMoreCommentList = (
       type: 'article/saveMoreComent',
       payload: res.data,
     })
+  }
+}
+
+/**
+ *
+ */
+export const likeArticle = (
+  artId: string,
+  attitude: number
+): RootThunkAction => {
+  return async (dispatch) => {
+    if (attitude === 1) {
+      await request({
+        method: 'DELETE',
+        url: `/article/likings/${artId}`,
+      })
+    } else {
+      await request({
+        method: 'POST',
+        url: '/article/likings',
+        data: {
+          target: artId,
+        },
+      })
+    }
+
+    await dispatch(getArticleDetail(artId))
   }
 }

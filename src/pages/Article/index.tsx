@@ -44,7 +44,6 @@ const Article = () => {
   const hasMore = comment.end_id !== comment.last_id
   // load more comment
   const loadMore = async () => {
-    console.log('12')
     await dispatch(getMoreCommentList(id, comment.last_id))
   }
 

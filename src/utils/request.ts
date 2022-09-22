@@ -55,7 +55,7 @@ instance.interceptors.response.use(
     // No token
     const { refresh_token } = getTokenInfo()
     if (!refresh_token) {
-      history.push({
+      history.replace({
         pathname: '/login',
         state: { from: history.location },
       })
@@ -95,7 +95,7 @@ instance.interceptors.response.use(
         })
       )
 
-      history.push({
+      history.replace({
         pathname: '/login',
         state: { from: history.location },
       })

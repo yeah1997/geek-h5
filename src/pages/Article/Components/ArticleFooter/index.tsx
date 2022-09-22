@@ -1,35 +1,31 @@
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store'
 
-/**
- * 评论工具栏组件
- * @param {Number} props.commentCount 评论数
- * @param {Number} props.attitude 点赞状态：1-已点赞 | 其他-未点赞
- * @param {Number} props.isCollected 评论数
- * @param {String} props.placeholder 输入框中的占位提示信息
- * @param {Function} props.onComment 点击输入框的回调函数
- * @param {Function} props.onShowComment 点击”评论”按钮的回调函数
- * @param {Function} props.onLike 点击“点赞”按钮的回调函数
- * @param {Function} props.onCollected 点击”收藏”按钮的回调函数
- * @param {Function} props.onShare 点击”分享”按钮的回调函数
- * @param {String} props.type  评论类型：normal 普通评论 | reply 回复评论
- */
+import { likeArticle } from '@/store/actions/article'
+import { Toast } from 'antd-mobile'
+
 const CommentFooter = ({
-  commentCount,
-  attitude,
-  isCollected,
   placeholder,
   onComment,
   onShowComment,
-  onLike,
+
   onCollected,
   onShare,
   type = 'normal',
 }: any) => {
   const { detail } = useSelector((state: RootState) => state.article)
+
+  // dispatch
+  const dispatch = useDispatch()
+
+  // event
+  const onLike = async () => {
+    await dispatch(likeArticle(detail.art_id, detail.attitude))
+    Toast.success('Like it!', 500)
+  }
 
   return (
     <div className={styles.root}>
