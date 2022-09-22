@@ -16,6 +16,7 @@ import { HomeAction } from './reducers/home'
 import { LoginAction } from './reducers/login'
 import { ProfileAction } from './reducers/profile'
 import { SearchAction } from './reducers/search'
+import { ArticleAction } from './reducers/article'
 
 const store = createStore(
   reduer,
@@ -30,7 +31,12 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 )
 
-type RootAction = HomeAction | LoginAction | ProfileAction | SearchAction
+type RootAction =
+  | HomeAction
+  | LoginAction
+  | ProfileAction
+  | SearchAction
+  | ArticleAction
 
 export type RootState = ReturnType<typeof store.getState>
 
