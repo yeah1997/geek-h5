@@ -6,6 +6,11 @@ import AuthRoute from '@/components/AuthRouter'
 
 //history
 import history from '@/utils/history'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
 
 // Components
 const Login = React.lazy(() => import('@/pages/Login'))

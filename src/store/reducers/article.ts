@@ -13,7 +13,7 @@ type Detail = {
   read_count: number
   title: string
 }
-type CommentResult = {
+export type CommentResult = {
   aut_id: string
   aut_name: string
   aut_photo: string
@@ -35,7 +35,7 @@ type CommentType = {
 
 type ArticelDetail = {
   detail: Detail
-  coment: CommentType
+  comment: CommentType
 }
 
 export type ArticleAction =
@@ -50,6 +50,7 @@ export type ArticleAction =
 
 const initValue: ArticelDetail = {
   detail: {},
+  comment: {},
 } as ArticelDetail
 
 export default function article(state = initValue, action: ArticleAction) {
@@ -62,7 +63,7 @@ export default function article(state = initValue, action: ArticleAction) {
     case 'article/saveComent':
       return {
         ...state,
-        coment: action.payload,
+        comment: action.payload,
       }
     default:
       break

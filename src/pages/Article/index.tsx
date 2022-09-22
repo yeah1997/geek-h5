@@ -17,6 +17,7 @@ import HiLightJs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css'
 
 import NoComment from './Components/NoComent'
+import CommentItem from './Components/CommentItem'
 
 const Article = () => {
   // history
@@ -31,7 +32,7 @@ const Article = () => {
   // author element Ref
   const authorRef = useRef<HTMLDivElement>(null)
 
-  const detail = useSelector((state: RootState) => state.article.detail)
+  const { detail, comment } = useSelector((state: RootState) => state.article)
 
   const { id } = useParams<{ id: string }>()
 
@@ -64,12 +65,12 @@ const Article = () => {
   useEffect(() => {
     document.addEventListener('scroll', onscroll)
     return () => document.removeEventListener('scroll', onscroll)
-  }, [])
+  }, [onscroll])
 
   // request
   useEffect(() => {
     dispatch(getCommentList(id))
-  }, [])
+  }, [dispatch, id])
 
   return (
     <div className={styles.root}>
@@ -140,7 +141,20 @@ const Article = () => {
                 </div>
               </div>
             </div>
-            <NoComment></NoComment>
+            <div className="comment">
+              <div className="comment-header">
+                <span>全部评论({detail.comm_count})</span>
+                <span>{detail.like_count} 点赞</span>
+              </div>
+            </div>
+
+            {detail.comm_count === 0 ? (
+              <NoComment></NoComment>
+            ) : (
+              comment.results?.map((item) => (
+                <CommentItem key={item.com_id} comment={item}></CommentItem>
+              ))
+            )}
           </div>
         </>
       </div>
