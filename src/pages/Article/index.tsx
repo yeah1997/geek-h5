@@ -10,6 +10,7 @@ import { getArticleDetail } from '@/store/actions/article'
 import { RootState } from '@/store'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
+import DOMPurify from 'dompurify'
 
 const Article = () => {
   // history
@@ -71,7 +72,9 @@ const Article = () => {
               <div className="content">
                 <div
                   className="content-html dg-html"
-                  dangerouslySetInnerHTML={{ __html: detail.content }}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(detail.content),
+                  }}
                 ></div>
                 <div className="date">
                   发布文章时间：{dayjs(detail.pubdate).format('YYYY-MM-DD')}
