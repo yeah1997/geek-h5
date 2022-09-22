@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router'
 import styles from './index.module.scss'
 
-import { getArticleDetail, getCommentList } from '@/store/actions/article'
+import {
+  getArticleDetail,
+  getCommentList,
+  getMoreCommentList,
+} from '@/store/actions/article'
 import { RootState } from '@/store'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
@@ -18,6 +22,7 @@ import 'highlight.js/styles/vs2015.css'
 
 import NoComment from './Components/NoComent'
 import CommentItem from './Components/CommentItem'
+import { InfiniteScroll } from 'antd-mobile-v5'
 
 const Article = () => {
   // history
@@ -32,7 +37,15 @@ const Article = () => {
   // author element Ref
   const authorRef = useRef<HTMLDivElement>(null)
 
+  // data from redux
   const { detail, comment } = useSelector((state: RootState) => state.article)
+
+  const hasMore = comment.end_id !== comment.last_id
+  // load more comment
+  const loadMore = async () => {
+    console.log('12')
+    await dispatch(getMoreCommentList(id, comment.last_id))
+  }
 
   const { id } = useParams<{ id: string }>()
 
@@ -155,6 +168,10 @@ const Article = () => {
                 <CommentItem key={item.com_id} comment={item}></CommentItem>
               ))
             )}
+            <InfiniteScroll
+              loadMore={loadMore}
+              hasMore={hasMore}
+            ></InfiniteScroll>
           </div>
         </>
       </div>

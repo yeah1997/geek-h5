@@ -30,3 +30,23 @@ export const getCommentList = (id: string, type = 'a'): RootThunkAction => {
     })
   }
 }
+
+/**
+ *
+ * @returns
+ */
+export const getMoreCommentList = (
+  id: string,
+  offset: string,
+  type = 'a'
+): RootThunkAction => {
+  return async (dispatch) => {
+    const res = await request.get('/comments', {
+      params: { source: id, type, offset },
+    })
+    dispatch({
+      type: 'article/saveMoreComent',
+      payload: res.data,
+    })
+  }
+}
