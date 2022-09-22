@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk, { ThunkAction } from 'redux-thunk'
 
 // storage
-import { getTokenInfo } from '@/utils/storage'
+import { getLocalHistories, getTokenInfo } from '@/utils/storage'
 
 import reduer from '@/store/reducers'
 
@@ -15,14 +15,21 @@ import reduer from '@/store/reducers'
 import { HomeAction } from './reducers/home'
 import { LoginAction } from './reducers/login'
 import { ProfileAction } from './reducers/profile'
+import { SearchAction } from './reducers/search'
 
 const store = createStore(
   reduer,
-  { login: getTokenInfo() },
+  {
+    login: getTokenInfo(),
+    search: {
+      suggestions: [],
+      searchHistory: getLocalHistories(),
+    },
+  },
   composeWithDevTools(applyMiddleware(thunk))
 )
 
-type RootAction = HomeAction | LoginAction | ProfileAction
+type RootAction = HomeAction | LoginAction | ProfileAction | SearchAction
 
 export type RootState = ReturnType<typeof store.getState>
 

@@ -15,7 +15,7 @@ import { saveToken } from '@/store/actions/login'
 export const BASE_URL = 'http://geek.itheima.net/v1_0'
 
 const instance = axios.create({
-  timeout: 5000,
+  timeout: 7000,
   baseURL: BASE_URL,
 })
 

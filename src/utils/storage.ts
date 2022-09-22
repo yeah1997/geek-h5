@@ -1,6 +1,7 @@
 // 用户 Token 的本地缓存键名
 const TOKEN_KEY = 'geek-token'
 const CHANNEL_LIST_KEY = 'geek_channel_list'
+const SEARCH_KEY = 'geek_h5_search_list'
 
 /** Type */
 // Token
@@ -62,4 +63,26 @@ export const getLocalChannels = () => {
  */
 export const removeLocalChannels = () => {
   localStorage.removeItem(CHANNEL_LIST_KEY)
+}
+
+/**
+ * 从缓存获取搜索历史关键字
+ */
+export const getLocalHistories = (): string[] => {
+  return JSON.parse(localStorage.getItem(SEARCH_KEY)!) || []
+}
+
+/**
+ * 将搜索历史关键字存入本地缓存
+ * @param {Array} histories
+ */
+export const setLocalHistories = (histories: string[]) => {
+  localStorage.setItem(SEARCH_KEY, JSON.stringify(histories))
+}
+
+/**
+ * 删除本地缓存中的搜索历史关键字
+ */
+export const removeLocalHistories = () => {
+  localStorage.removeItem(SEARCH_KEY)
 }
