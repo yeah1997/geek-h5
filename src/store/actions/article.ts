@@ -52,7 +52,7 @@ export const getMoreCommentList = (
 }
 
 /**
- *
+ * like a article
  */
 export const likeArticle = (
   artId: string,
@@ -74,6 +74,28 @@ export const likeArticle = (
       })
     }
 
+    // update
+    await dispatch(getArticleDetail(artId))
+  }
+}
+
+export const collectArticle = (
+  artId: string,
+  isCollected: boolean
+): RootThunkAction => {
+  return async (dispatch) => {
+    if (isCollected) {
+      await request.delete(`article/collections/${artId}`)
+    } else {
+      await request({
+        method: 'POST',
+        url: '/article/collections',
+        data: {
+          target: artId,
+        },
+      })
+    }
+    // update
     await dispatch(getArticleDetail(artId))
   }
 }

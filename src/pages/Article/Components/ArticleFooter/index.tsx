@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store'
 
-import { likeArticle } from '@/store/actions/article'
+import { likeArticle, collectArticle } from '@/store/actions/article'
 import { Toast } from 'antd-mobile'
 
 const CommentFooter = ({
@@ -12,7 +12,6 @@ const CommentFooter = ({
   onComment,
   onShowComment,
 
-  onCollected,
   onShare,
   type = 'normal',
 }: any) => {
@@ -24,7 +23,12 @@ const CommentFooter = ({
   // event
   const onLike = async () => {
     await dispatch(likeArticle(detail.art_id, detail.attitude))
-    Toast.success('Like it!', 500)
+    Toast.success('Over!', 500)
+  }
+
+  const onCollected = async () => {
+    await dispatch(collectArticle(detail.art_id, detail.is_collected))
+    Toast.success('Over!', 500)
   }
 
   return (
