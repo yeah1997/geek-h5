@@ -16,6 +16,7 @@ import styles from './index.module.scss'
 import 'dayjs/locale/zh-cn'
 import { RootState } from '@/store'
 import { Article } from '@/store/reducers/home'
+import { useHistory } from 'react-router'
 
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
@@ -29,6 +30,8 @@ type Props = {
 const ArticleItem = ({ article, channelId }: Props) => {
   // dispatch
   const dispatch = useDispatch()
+  // history
+  const history = useHistory()
 
   const hasLogin = useSelector((state: RootState) => state.login.token)
 
@@ -51,7 +54,10 @@ const ArticleItem = ({ article, channelId }: Props) => {
   }
 
   return (
-    <div className={styles.root}>
+    <div
+      className={styles.root}
+      onClick={() => history.push(`/article/${article.art_id}`)}
+    >
       <div
         className={classnames(
           'article-content',

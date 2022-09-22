@@ -2,6 +2,7 @@ import request from '@/utils/request'
 import { RootThunkAction } from '@/store'
 import { SearchAction } from '../reducers/search'
 import { removeLocalHistories, setLocalHistories } from '@/utils/storage'
+import { Article } from '../reducers/home'
 
 type suggestListRes = {
   options: string[]
@@ -71,6 +72,38 @@ export const clearHistoryList = (): RootThunkAction => {
     removeLocalHistories()
     dispatch({
       type: 'search/clearitoryList',
+    })
+  }
+}
+
+type ResultRes = {
+  page: number
+  per_page?: number
+  results: Article[]
+  total_count: number
+}
+
+/**
+ * get Search Result
+ * @param keyWord
+ * @param page
+ * @returns
+ */
+export const getSearchResult = (
+  keyWord: string,
+  page: number
+): RootThunkAction => {
+  return async (dispatch) => {
+    const res = await request.get<ResultRes>('/search', {
+      params: {
+        page,
+        per_page: 10,
+        q: keyWord,
+      },
+    })
+    dispatch({
+      type: 'search/saveSearchResults',
+      payload: res.data.results,
     })
   }
 }

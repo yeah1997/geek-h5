@@ -1,7 +1,10 @@
+import { Article } from './home'
+
 // action type
 type searchType = {
   suggestions: string[]
   searchHistory: string[]
+  searchResults: Article[]
 }
 
 export type SearchAction =
@@ -19,9 +22,14 @@ export type SearchAction =
   | {
       type: 'search/clearitoryList'
     }
+  | {
+      type: 'search/saveSearchResults'
+      payload: Article[]
+    }
 const initValue: searchType = {
   suggestions: [],
   searchHistory: [],
+  searchResults: [],
 }
 
 export default function search(state = initValue, action: SearchAction) {
@@ -46,6 +54,11 @@ export default function search(state = initValue, action: SearchAction) {
       return {
         ...state,
         searchHistory: [],
+      }
+    case 'search/saveSearchResults':
+      return {
+        ...state,
+        searchResults: [...state.searchResults, ...action.payload],
       }
 
     default:

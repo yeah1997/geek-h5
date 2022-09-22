@@ -22,6 +22,7 @@ const store = createStore(
   {
     login: getTokenInfo(),
     search: {
+      searchResults: [],
       suggestions: [],
       searchHistory: getLocalHistories(),
     },
