@@ -23,7 +23,6 @@ const Feedback = React.lazy(() => import('@/pages/Profile/Feedback'))
 const Search = React.lazy(() => import('@/pages/Search'))
 const SearchResult = React.lazy(() => import('@/pages/Search/Result'))
 const Article = React.lazy(() => import('@/pages/Article'))
-const Home = React.lazy(() => import('@/pages/Home'))
 
 function App() {
   return (

@@ -5,6 +5,7 @@ const {
   fixBabelImports,
   addWebpackAlias,
   addPostcssPlugins,
+  addWebpackExternals,
 } = require('customize-cra')
 
 const babelPlugins = fixBabelImports('import', {
@@ -27,5 +28,15 @@ const postcssPlugins = addPostcssPlugins([
   }),
 ])
 
+// 排除第三方的依赖包
+const obj = process.env.NODE_ENV
+  ? {
+      react: 'React',
+
+      'react-dom': 'ReactDOM',
+    }
+  : {}
+const externals = addWebpackExternals(obj)
+
 // 导出要进行覆盖的 webpack 配置
-module.exports = override(babelPlugins, postcssPlugins, webpackAlias)
+module.exports = override(externals, babelPlugins, postcssPlugins, webpackAlias)
