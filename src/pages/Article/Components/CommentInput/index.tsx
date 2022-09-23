@@ -7,10 +7,9 @@ import styles from './index.module.scss'
 import { addComment } from '@/store/actions/article'
 
 const CommentInput = ({
-  id,
   name,
   onClose,
-  onComment,
+  onAddReply,
 
   articleId,
 }: any) => {
@@ -32,8 +31,13 @@ const CommentInput = ({
   // 发表评论
   const onSendComment = async () => {
     if (!value) return
-    await dispatch(addComment(articleId, value))
-    onClose()
+    if (name) {
+      await onAddReply(value)
+      onClose()
+    } else {
+      await dispatch(addComment(articleId, value))
+      onClose()
+    }
   }
 
   return (

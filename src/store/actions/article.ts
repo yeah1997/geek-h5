@@ -1,5 +1,6 @@
 import { RootThunkAction } from '..'
 import request from '@/utils/request'
+import { ArticleAction, CommentResult } from '../reducers/article'
 
 /**
  * get article detail
@@ -79,6 +80,12 @@ export const likeArticle = (
   }
 }
 
+/**
+ * collect article
+ * @param artId
+ * @param isCollected
+ * @returns
+ */
 export const collectArticle = (
   artId: string,
   isCollected: boolean
@@ -100,6 +107,12 @@ export const collectArticle = (
   }
 }
 
+/**
+ * add comment
+ * @param artId
+ * @param text
+ * @returns
+ */
 export const addComment = (artId: string, text: string): RootThunkAction => {
   return async (dispatch, getState) => {
     const res = await request.post('/comments', {
@@ -112,5 +125,12 @@ export const addComment = (artId: string, text: string): RootThunkAction => {
       payload: res.data.new_obj,
     })
     dispatch(getArticleDetail(getState().article.detail.art_id))
+  }
+}
+
+export const updateComment = (comment: CommentResult): ArticleAction => {
+  return {
+    type: 'article/updateoment',
+    payload: comment,
   }
 }

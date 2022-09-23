@@ -72,14 +72,14 @@ const Article = () => {
   const onCloseReply = () => {
     SetShowReply({
       visible: false,
-      originComment: {},
+      originComment: {} as CommentResult,
     })
   }
 
   // show reply
   const [showReply, SetShowReply] = useState({
     visible: false,
-    originComment: {},
+    originComment: {} as CommentResult,
   })
 
   const commentRef = useRef<HTMLDivElement>(null)

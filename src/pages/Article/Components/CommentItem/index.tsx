@@ -7,11 +7,11 @@ import { CommentResult } from '@/store/reducers/article'
 
 type Props = {
   comment: CommentResult
-  type?: string
   onReply: (comment: CommentResult) => void
+  type?: string
 }
 
-const CommentItem = ({ comment, type = 'nrmal', onReply }: Props) => {
+const CommentItem = ({ comment, onReply, type = 'normal' }: Props) => {
   return (
     <div className={styles.root}>
       {/* 评论者头像 */}
@@ -50,9 +50,11 @@ const CommentItem = ({ comment, type = 'nrmal', onReply }: Props) => {
 
         <div className="comment-footer">
           {/* 回复按钮 */}
-          <span className="replay" onClick={() => onReply(comment)}>
-            {comment.reply_count}回复 <Icon iconName="iconbtn_right" />
-          </span>
+          {type === 'normal' ? (
+            <span className="replay" onClick={() => onReply(comment)}>
+              {comment.reply_count}回复 <Icon iconName="iconbtn_right" />
+            </span>
+          ) : null}
 
           {/* 评论日期 */}
           <span className="comment-time">{dayjs().from(comment.pubdate)}</span>

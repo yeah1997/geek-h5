@@ -3,50 +3,61 @@ import NoComment from '../NoComent'
 
 import { Drawer } from 'antd-mobile'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import ArticleFooter from '..//ArticleFooter'
 import CommentInput from '../CommentInput'
 import CommentItem from '../CommentItem'
 import styles from './index.module.scss'
+import { CommentResult } from '@/store/reducers/article'
+import request from '@/utils/request'
+import { InfiniteScroll } from 'antd-mobile-v5'
+
+import { updateComment } from '@/store/actions/article'
 
 type Props = {
   articleId: string
   onClose: () => void
-  originComment: any
+  originComment: CommentResult
 }
 
 const CommentReply = ({ originComment, articleId, onClose }: Props) => {
-  // 评论相关数据
-  const [comment, setComment] = useState({})
+  const [replyList, setReplyList] = useState({
+    end_id: '',
+    last_id: '',
+    results: [] as CommentResult[],
+    total_count: 0,
+  })
+
+  // dispatch
+  const dispatch = useDispatch()
 
   // 抽屉表单状态
   const [drawerStatus, setDrawerStatus] = useState({
     visible: false,
-    id: originComment.com_id,
   })
 
   useEffect(() => {
-    // 加载回复评论的列表数据
-    const loadData = async () => {
-      //   const res = await http.get('/comments', {
-      //     params: {
-      //       type: 'c',
-      //       source: originComment.com_id,
-      //     },
-      //   })
-      //   setComment(res.data.data)
-    }
+    const fetchData = async () => {
+      const res = await request.get('/comments', {
+        params: {
+          type: 'c',
+          source: originComment.com_id,
+        },
+      })
 
-    // 只有当原评论数据的 com_id 字段有值才开始加载数据
-    if (originComment?.com_id) {
-      loadData()
+      setReplyList(res.data)
     }
-  }, [originComment.com_id])
+    fetchData()
+  }, [originComment])
+
+  // hasmore
+  let hasMore = replyList.end_id !== replyList.last_id
+  console.log(hasMore)
 
   // 展示评论窗口
   const onComment = () => {
     setDrawerStatus({
       visible: true,
-      id: originComment.com_id,
     })
   }
 
@@ -54,48 +65,84 @@ const CommentReply = ({ originComment, articleId, onClose }: Props) => {
   const onCloseComment = () => {
     setDrawerStatus({
       visible: false,
-      id: 0,
+    })
+  }
+
+  const loadMore = async () => {
+    const res = await request.get('/comments', {
+      params: {
+        type: 'c',
+        source: originComment.com_id,
+        offset: replyList.last_id,
+      },
+    })
+
+    setReplyList({
+      ...res.data,
+      results: [...replyList.results, ...res.data.results],
     })
   }
 
   // 发表评论后，插入到数据中
-  const onInsertComment = (newItem: any) => {
-    // setComment({
-    //   ...comment,
-    //   total_count: comment.total_count + 1,
-    //   results: [newItem, ...comment.results],
-    // })
+  const onAddReply = async (content: string) => {
+    const res = await request.post('/comments', {
+      target: originComment.com_id,
+      content,
+      art_id: articleId,
+    })
+    setReplyList({
+      ...replyList,
+      total_count: replyList.total_count + 1,
+      results: [res.data.new_obj, ...replyList.results],
+    })
+
+    // update reply number
+    dispatch(
+      updateComment({
+        ...originComment,
+        reply_count: originComment.reply_count + 1,
+      })
+    )
   }
 
+  console.log(originComment.reply_count)
+  console.log(replyList.results)
   return (
     <div className={styles.root}>
       <div className="reply-wrapper">
         {/* 顶部导航栏 */}
         <NavBar className="transparent-navbar" onLeftClick={onClose}>
-          条回复
+          <div>{replyList.total_count}条回复</div>
         </NavBar>
 
         {/* 原评论信息 */}
         <div className="origin-comment">
-          {/* <CommentItem
-            type="origin"
-            commentId={originComment.com_id}
-            authorPhoto={originComment.aut_photo}
-            authorName={originComment.aut_name}
-            likeCount={originComment.like_count}
-            isFollowed={originComment.is_followed}
-            isLiking={originComment.is_liking}
-            content={originComment.content}
-            replyCount={originComment.reply_count}
-            publishDate={originComment.pubdate}
-          /> */}
+          <CommentItem
+            comment={originComment}
+            onReply={() => {}}
+            type="reply"
+          />
         </div>
 
         {/* 回复评论的列表 */}
         <div className="reply-list">
           <div className="reply-header">全部回复</div>
-
-          {<NoComment />}
+          {originComment.reply_count === 0 ? (
+            <NoComment />
+          ) : (
+            replyList.results.map((item, index) => (
+              <CommentItem
+                key={index}
+                comment={item}
+                onReply={() => {}}
+                type="reply"
+              ></CommentItem>
+            ))
+          )}
+          <InfiniteScroll
+            loadMore={loadMore}
+            hasMore={hasMore}
+          ></InfiniteScroll>
         </div>
 
         {/* 评论工具栏，设置 type="reply" 不显示评论和点赞按钮 */}
@@ -116,11 +163,10 @@ const CommentReply = ({ originComment, articleId, onClose }: Props) => {
           <div className="drawer-sidebar-wrapper">
             {drawerStatus.visible && (
               <CommentInput
-                id={drawerStatus.id}
                 name={originComment.aut_name}
                 articleId={articleId}
                 onClose={onCloseComment}
-                onComment={onInsertComment}
+                onAddReply={onAddReply}
               />
             )}
           </div>
