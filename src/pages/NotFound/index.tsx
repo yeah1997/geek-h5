@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { useState, useEffect, useRef } from 'react'
 
 import { Link, useHistory } from 'react-router-dom'
@@ -17,7 +15,7 @@ export default function NotFuond() {
       setSecond((second) => second - 1)
       if (second === 0) {
         clearInterval(timerRef.current)
-        history.push('/home')
+        history.push('/home/index')
       }
       console.log(123)
     }, 1000)

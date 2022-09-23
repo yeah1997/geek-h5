@@ -12,6 +12,7 @@ import Icon from '@/components/Icon'
 import classNames from 'classnames'
 
 // Components
+import KeepAlive from '@/components/KeepAlive'
 const Home = React.lazy(() => import('@/pages/Home'))
 const QA = React.lazy(() => import('@/pages/QA'))
 const Video = React.lazy(() => import('@/pages/Video'))
@@ -24,7 +25,7 @@ export default function Layout() {
   const location = useLocation()
 
   const tabButton = [
-    { id: 1, title: 'Home', path: '/home', icon: 'iconbtn_home' },
+    { id: 1, title: 'Home', path: '/home/index', icon: 'iconbtn_home' },
     { id: 2, title: 'Q&A', path: '/home/qa', icon: 'iconbtn_qa' },
     { id: 3, title: 'Video', path: '/home/video', icon: 'iconbtn_video' },
     { id: 4, title: 'Mine', path: '/home/profile', icon: 'iconbtn_mine' },
@@ -37,8 +38,13 @@ export default function Layout() {
 
       {/* Router Setting  --- Router lazy loading(Suspense)*/}
       <Suspense fallback={<div>loading</div>}>
+        <KeepAlive
+          exact
+          alivePath="/home/index"
+          path="/home/index"
+          component={Home}
+        ></KeepAlive>
         <Switch>
-          <Route exact path="/home" component={Home}></Route>
           <Route path="/home/qa" component={QA}></Route>
           <Route path="/home/video" component={Video}></Route>
           <AuthRoute path="/home/profile" component={Profile}></AuthRoute>

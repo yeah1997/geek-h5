@@ -131,7 +131,6 @@ const Article = () => {
   // scroll event
   useEffect(() => {
     wrapperRef.current!.addEventListener('scroll', onscroll)
-    return () => wrapperRef.current!.removeEventListener('scroll', onscroll)
   }, [onscroll])
 
   // request
