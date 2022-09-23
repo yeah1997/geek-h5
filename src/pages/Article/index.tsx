@@ -25,6 +25,7 @@ import CommentItem from './Components/CommentItem'
 import ArticleFooter from './Components/ArticleFooter'
 import Sticky from '@/components/Sticky'
 import Share from './Components/Share'
+import CommentInput from './Components/CommentInput'
 import { Drawer } from 'antd-mobile'
 import { InfiniteScroll } from 'antd-mobile-v5'
 
@@ -40,9 +41,23 @@ const Article = () => {
   //
   const [share, setShare] = useState(false)
 
-  //
+  // close show
   const onCloseShare = () => {
     setShare(false)
+  }
+
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  // show comment
+  const [showComment, setShowComment] = useState({
+    visible: false,
+  })
+
+  // close comment
+  const onCloseComment = () => {
+    setShowComment({
+      visible: false,
+    })
   }
 
   const commentRef = useRef<HTMLDivElement>(null)
@@ -60,7 +75,7 @@ const Article = () => {
   }
 
   const goComment = () => {
-    window.scrollTo(0, commentRef.current!.offsetTop)
+    wrapperRef.current!.scrollTo(0, commentRef.current!.offsetTop - 46)
   }
 
   const { id } = useParams<{ id: string }>()
@@ -93,8 +108,8 @@ const Article = () => {
 
   // scroll event
   useEffect(() => {
-    document.addEventListener('scroll', onscroll)
-    return () => document.removeEventListener('scroll', onscroll)
+    wrapperRef.current!.addEventListener('scroll', onscroll)
+    return () => wrapperRef.current!.removeEventListener('scroll', onscroll)
   }, [onscroll])
 
   // request
@@ -133,7 +148,7 @@ const Article = () => {
           )}
         </NavBar>
         <>
-          <div className="wrapper">
+          <div className="wrapper" ref={wrapperRef}>
             <div className="article-wrapper">
               {/* 文章描述信息栏 */}
               <div className="header">
@@ -173,7 +188,8 @@ const Article = () => {
             </div>
             <div className="comment">
               {/* comment header */}
-              <Sticky top={0}>
+
+              <Sticky top={46}>
                 <div className="comment-header" ref={commentRef}>
                   <span>全部评论({detail.comm_count})</span>
                   <span>{detail.like_count} 点赞</span>
@@ -192,13 +208,16 @@ const Article = () => {
               loadMore={loadMore}
               hasMore={hasMore}
             ></InfiniteScroll>
-            <ArticleFooter
-              goComment={goComment}
-              onShare={() => setShare(true)}
-            ></ArticleFooter>
           </div>
+
+          <ArticleFooter
+            goComment={goComment}
+            onShare={() => setShare(true)}
+            onComment={() => setShowComment({ visible: true })}
+          ></ArticleFooter>
         </>
       </div>
+      <div></div>
       <Drawer
         className="drawer-share"
         position="bottom"
@@ -207,6 +226,25 @@ const Article = () => {
         sidebar={<Share onClose={onCloseShare} />}
         open={share}
         onOpenChange={onCloseShare}
+      />
+      {/* 评论抽屉 */}
+      <Drawer
+        className="drawer"
+        position="bottom"
+        style={{ minHeight: document.documentElement.clientHeight }}
+        children={''}
+        sidebar={
+          <div className="drawer-sidebar-wrapper">
+            {showComment.visible && (
+              <CommentInput
+                onClose={onCloseComment}
+                articleId={detail.art_id}
+              />
+            )}
+          </div>
+        }
+        open={showComment.visible}
+        onOpenChange={onCloseComment}
       />
     </div>
   )

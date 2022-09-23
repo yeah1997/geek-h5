@@ -51,6 +51,10 @@ export type ArticleAction =
       type: 'article/saveMoreComent'
       payload: CommentType
     }
+  | {
+      type: 'article/saveNewComent'
+      payload: CommentResult
+    }
 
 const initValue: ArticelDetail = {
   detail: {},
@@ -75,6 +79,14 @@ export default function article(state = initValue, action: ArticleAction) {
         comment: {
           ...action.payload,
           results: [...state.comment.results, ...action.payload.results],
+        },
+      }
+    case 'article/saveNewComent':
+      return {
+        ...state,
+        comment: {
+          ...state.comment,
+          results: [action.payload, ...state.comment.results],
         },
       }
     default:

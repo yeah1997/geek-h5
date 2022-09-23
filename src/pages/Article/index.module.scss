@@ -1,17 +1,9 @@
 @import '@scss/mixin.scss';
 
 .root {
-  height: 100%;
-  padding-top: 46px;
-  padding-bottom: 50px;
+  height: 100vh;
 
   :global {
-    .navBar {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 99;
-    }
     .root-wrapper {
       position: relative;
       display: flex;
@@ -51,7 +43,7 @@
 
     .wrapper {
       flex: 1;
-      // overflow-y: auto;
+      overflow-y: auto;
       background-color: #f7f8fa;
     }
 
@@ -179,6 +171,10 @@
         padding: 16px;
         font-size: 17px;
         font-weight: 500;
+        color: #333;
+        position: sticky;
+        top: 0;
+        z-index: 999;
         color: #333;
 
         span {

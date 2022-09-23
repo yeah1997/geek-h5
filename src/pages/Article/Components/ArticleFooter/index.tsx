@@ -22,12 +22,12 @@ const CommentFooter = ({
   // event
   const onLike = async () => {
     await dispatch(likeArticle(detail.art_id, detail.attitude))
-    Toast.success('Over!', 500)
+    Toast.success('Over!')
   }
 
   const onCollected = async () => {
     await dispatch(collectArticle(detail.art_id, detail.is_collected))
-    Toast.success('Over!', 500)
+    Toast.success('Over!')
   }
 
   return (

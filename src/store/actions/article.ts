@@ -99,3 +99,18 @@ export const collectArticle = (
     await dispatch(getArticleDetail(artId))
   }
 }
+
+export const addComment = (artId: string, text: string): RootThunkAction => {
+  return async (dispatch, getState) => {
+    const res = await request.post('/comments', {
+      target: artId,
+      content: text,
+    })
+
+    dispatch({
+      type: 'article/saveNewComent',
+      payload: res.data.new_obj,
+    })
+    dispatch(getArticleDetail(getState().article.detail.art_id))
+  }
+}
