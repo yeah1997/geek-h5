@@ -26,8 +26,10 @@ import ArticleFooter from './Components/ArticleFooter'
 import Sticky from '@/components/Sticky'
 import Share from './Components/Share'
 import CommentInput from './Components/CommentInput'
+import CommentReply from './Components/CommentReply'
 import { Drawer } from 'antd-mobile'
 import { InfiniteScroll } from 'antd-mobile-v5'
+import { CommentResult } from '@/store/reducers/article'
 
 const Article = () => {
   // history
@@ -59,6 +61,26 @@ const Article = () => {
       visible: false,
     })
   }
+  // on show reply
+  const onShowReply = (comment: CommentResult) => {
+    SetShowReply({
+      visible: true,
+      originComment: comment,
+    })
+  }
+
+  const onCloseReply = () => {
+    SetShowReply({
+      visible: false,
+      originComment: {},
+    })
+  }
+
+  // show reply
+  const [showReply, SetShowReply] = useState({
+    visible: false,
+    originComment: {},
+  })
 
   const commentRef = useRef<HTMLDivElement>(null)
 
@@ -201,7 +223,11 @@ const Article = () => {
               <NoComment></NoComment>
             ) : (
               comment.results?.map((item) => (
-                <CommentItem key={item.com_id} comment={item}></CommentItem>
+                <CommentItem
+                  key={item.com_id}
+                  comment={item}
+                  onReply={onShowReply}
+                ></CommentItem>
               ))
             )}
             <InfiniteScroll
@@ -245,6 +271,27 @@ const Article = () => {
         }
         open={showComment.visible}
         onOpenChange={onCloseComment}
+      />
+
+      {/* 回复抽屉 */}
+      <Drawer
+        className="drawer-right"
+        position="right"
+        style={{ minHeight: document.documentElement.clientHeight }}
+        children={''}
+        sidebar={
+          <div className="drawer-sidebar-wrapper">
+            {showReply.visible && (
+              <CommentReply
+                originComment={showReply.originComment}
+                articleId={detail.art_id}
+                onClose={onCloseReply}
+              />
+            )}
+          </div>
+        }
+        open={showReply.visible}
+        onOpenChange={onCloseReply}
       />
     </div>
   )

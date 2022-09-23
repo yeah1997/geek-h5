@@ -8,9 +8,10 @@ import { CommentResult } from '@/store/reducers/article'
 type Props = {
   comment: CommentResult
   type?: string
+  onReply: (comment: CommentResult) => void
 }
 
-const CommentItem = ({ comment, type = 'nrmal' }: Props) => {
+const CommentItem = ({ comment, type = 'nrmal', onReply }: Props) => {
   return (
     <div className={styles.root}>
       {/* 评论者头像 */}
@@ -24,25 +25,24 @@ const CommentItem = ({ comment, type = 'nrmal' }: Props) => {
           <span className="name">{comment.aut_name}</span>
 
           {/* 关注或点赞按钮 */}
-          {type === 'normal' ? (
-            <span className="thumbs-up" onClick={() => {}}>
-              {comment.like_count}{' '}
-              <Icon
-                iconName={
-                  comment.is_liking ? 'iconbtn_like_sel' : 'iconbtn_like2'
-                }
-              />
-            </span>
-          ) : (
-            <span
-              className={classnames(
-                'follow',
-                comment.is_followed ? 'followed' : ''
-              )}
-            >
-              {comment.is_followed ? '已关注' : '关注'}
-            </span>
-          )}
+
+          <span className="thumbs-up" onClick={() => {}}>
+            {comment.like_count}{' '}
+            <Icon
+              iconName={
+                comment.is_liking ? 'iconbtn_like_sel' : 'iconbtn_like2'
+              }
+            />
+          </span>
+
+          <span
+            className={classnames(
+              'follow',
+              comment.is_followed ? 'followed' : ''
+            )}
+          >
+            {comment.is_followed ? '已关注' : '关注'}
+          </span>
         </div>
 
         {/* 评论内容 */}
@@ -50,12 +50,9 @@ const CommentItem = ({ comment, type = 'nrmal' }: Props) => {
 
         <div className="comment-footer">
           {/* 回复按钮 */}
-          {type === 'normal' && (
-            <span className="replay" onClick={() => {}}>
-              {comment.reply_count === 0 ? '' : comment.reply_count}回复{' '}
-              <Icon iconName="iconbtn_right" />
-            </span>
-          )}
+          <span className="replay" onClick={() => onReply(comment)}>
+            {comment.reply_count}回复 <Icon iconName="iconbtn_right" />
+          </span>
 
           {/* 评论日期 */}
           <span className="comment-time">{dayjs().from(comment.pubdate)}</span>
