@@ -10,8 +10,7 @@ import { Toast } from 'antd-mobile'
 const CommentFooter = ({
   placeholder,
   onComment,
-  onShowComment,
-
+  goComment,
   onShare,
   type = 'normal',
 }: any) => {
@@ -42,7 +41,7 @@ const CommentFooter = ({
       {type === 'normal' && (
         <>
           {/* 评论按钮 */}
-          <div className="action-item" onClick={onShowComment}>
+          <div className="action-item" onClick={goComment}>
             <Icon iconName="iconbtn_comment" />
             <p>评论</p>
             {detail.comm_count !== 0 && (

@@ -23,6 +23,9 @@ import 'highlight.js/styles/vs2015.css'
 import NoComment from './Components/NoComent'
 import CommentItem from './Components/CommentItem'
 import ArticleFooter from './Components/ArticleFooter'
+import Sticky from '@/components/Sticky'
+import Share from './Components/Share'
+import { Drawer } from 'antd-mobile'
 import { InfiniteScroll } from 'antd-mobile-v5'
 
 const Article = () => {
@@ -34,6 +37,15 @@ const Article = () => {
 
   // is Author on the top?
   const [isShowAuthor, setShowAuthor] = useState(false)
+  //
+  const [share, setShare] = useState(false)
+
+  //
+  const onCloseShare = () => {
+    setShare(false)
+  }
+
+  const commentRef = useRef<HTMLDivElement>(null)
 
   // author element Ref
   const authorRef = useRef<HTMLDivElement>(null)
@@ -45,6 +57,10 @@ const Article = () => {
   // load more comment
   const loadMore = async () => {
     await dispatch(getMoreCommentList(id, comment.last_id))
+  }
+
+  const goComment = () => {
+    window.scrollTo(0, commentRef.current!.offsetTop)
   }
 
   const { id } = useParams<{ id: string }>()
@@ -59,14 +75,15 @@ const Article = () => {
     HiLightJs.configure({
       ignoreUnescapedHTML: true,
     })
-    const codes = document.querySelectorAll('.dg-html code')
+    const codes = document.querySelectorAll('.dg-html pre code')
     codes.forEach((el) => {
       HiLightJs.highlightElement(el as HTMLElement)
     })
   }, [detail])
 
   const onscroll = throttle(() => {
-    const rect = authorRef.current!.getBoundingClientRect()
+    const rect = authorRef.current!.getBoundingClientRect()!
+    if (!rect) return
     if (rect.top <= 0) {
       setShowAuthor(true)
     } else {
@@ -155,10 +172,13 @@ const Article = () => {
               </div>
             </div>
             <div className="comment">
-              <div className="comment-header">
-                <span>全部评论({detail.comm_count})</span>
-                <span>{detail.like_count} 点赞</span>
-              </div>
+              {/* comment header */}
+              <Sticky top={0}>
+                <div className="comment-header" ref={commentRef}>
+                  <span>全部评论({detail.comm_count})</span>
+                  <span>{detail.like_count} 点赞</span>
+                </div>
+              </Sticky>
             </div>
 
             {detail.comm_count === 0 ? (
@@ -172,10 +192,22 @@ const Article = () => {
               loadMore={loadMore}
               hasMore={hasMore}
             ></InfiniteScroll>
-            <ArticleFooter></ArticleFooter>
+            <ArticleFooter
+              goComment={goComment}
+              onShare={() => setShare(true)}
+            ></ArticleFooter>
           </div>
         </>
       </div>
+      <Drawer
+        className="drawer-share"
+        position="bottom"
+        style={{ minHeight: document.documentElement.clientHeight }}
+        children={''}
+        sidebar={<Share onClose={onCloseShare} />}
+        open={share}
+        onOpenChange={onCloseShare}
+      />
     </div>
   )
 }
